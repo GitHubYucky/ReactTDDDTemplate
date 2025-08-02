@@ -6,6 +6,7 @@ type Props = {
 };
 
 export const TodoInput = ({ onAdd }: Props) => {
+  //
   const [text, setText] = useState("");
 
   const handleSubmit = () => {

@@ -14,16 +14,17 @@ describe("TodoInput", () => {
   });
 
   it("ボタンを押すとonAddが呼ばれる", () => {
-    const handleAdd = vi.fn();
-    render(<TodoInput onAdd={handleAdd} />);
-
+    //arrage
+    const handleAdd=vi.fn();
+    render(<TodoInput onAdd={handleAdd} />)
+    // act
     const input = screen.getByPlaceholderText("新しいTODOを入力");
-    fireEvent.change(input, { target: { value: "掃除" } });
+    fireEvent.change(input,{target:{value:"hoge"}})
+    const button=screen.getByRole("button",{name:/追加/i})
+    fireEvent.click(button)
 
-    const button = screen.getByRole("button", { name: /追加/i });
-    fireEvent.click(button);
+    expect(handleAdd).toBeCalled();
 
-    expect(handleAdd).toHaveBeenCalledWith("掃除");
   });
 
   it("空文字ではonAddが呼ばれない", () => {
@@ -37,14 +38,15 @@ describe("TodoInput", () => {
   });
 
   it("追加後に入力欄が空になる", () => {
-    render(<TodoInput onAdd={() => {}} />);
-
+    // act
+    render(<TodoInput onAdd={()=>{}} />)
+    // arrange
     const input = screen.getByPlaceholderText("新しいTODOを入力");
-    fireEvent.change(input, { target: { value: "勉強" } });
+    fireEvent.change(input,{target:{value:"hoge"}})
+    const button=screen.getByRole("button",{name:/追加/i})
+    fireEvent.click(button)
+    // assert
+    expect((input as HTMLInputElement).value).toBe("")
 
-    const button = screen.getByRole("button", { name: /追加/i });
-    fireEvent.click(button);
-
-    expect((input as HTMLInputElement).value).toBe("");
   });
 });

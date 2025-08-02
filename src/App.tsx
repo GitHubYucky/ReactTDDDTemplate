@@ -4,7 +4,7 @@ import { TodoList } from "./features/todo/components/TodoList";
 import { useTodos } from "./features/todo/hooks/useTodos";
 
 export const App = () => {
-  const { todos, addTodo, deleteTodo, toggleTodo } = useTodos();
+  const { todos, addTodo, deleteTodo, toggleTodo,editTodoText } = useTodos();
 
   return (
     <div>
@@ -14,6 +14,7 @@ export const App = () => {
         todos={todos}
         onDelete={deleteTodo}
         onToggle={toggleTodo}
+        onEdit={editTodoText}
       />
     </div>
   );

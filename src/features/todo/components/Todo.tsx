@@ -13,6 +13,7 @@ export const Todo = ({ todo, onDelete, onToggle,onEdit }: Props) => {
   const [isEditing,setIsEditing]=useState(false);
   const [editText,setEditText]=useState(todo.text);
 
+  // 編集についてはこのコンポーネントで片が付くのでこのコンポーネント内で書く
   const handleEditSubmit=()=>{
     const trimmed = editText.trim();
     if (trimmed && trimmed !== todo.text) {
@@ -20,6 +21,8 @@ export const Todo = ({ todo, onDelete, onToggle,onEdit }: Props) => {
     }
     setIsEditing(false);
   }
+
+  // Cancelも同様
   const handleCancel=()=>{
     setEditText(todo.text)
     setIsEditing(false)

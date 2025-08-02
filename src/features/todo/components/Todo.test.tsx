@@ -108,15 +108,20 @@ describe("TodoEdit",()=>{
   });
 
   it("キャンセルボタン押下で値が戻る",()=>{
+    // arrange
     render(
       <Todo todo={sample} onDelete={() => {}} onToggle={() => {}} onEdit={()=>{}} />
     );
+    //act
     fireEvent.click(screen.getByText("編集"))
     const input = screen.getByDisplayValue("掃除");
     fireEvent.change(input, { target: { value: "勉強" } });
     const button=screen.getByText("Cancel")
     fireEvent.click(button)
+    //assert
+    // DisplayValue=InputValue, Text= textNode
     expect(screen.getByText("掃除")).toBeInTheDocument();
+    // ないものを探すときはQuery
     expect(screen.queryByDisplayValue("勉強")).not.toBeInTheDocument();
 
   })

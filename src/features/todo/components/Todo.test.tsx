@@ -107,4 +107,18 @@ describe("TodoEdit",()=>{
     expect(onEdit).toHaveBeenCalledWith(1, "勉強");
   });
 
+  it("キャンセルボタン押下で値が戻る",()=>{
+    render(
+      <Todo todo={sample} onDelete={() => {}} onToggle={() => {}} onEdit={()=>{}} />
+    );
+    fireEvent.click(screen.getByText("編集"))
+    const input = screen.getByDisplayValue("掃除");
+    fireEvent.change(input, { target: { value: "勉強" } });
+    const button=screen.getByText("Cancel")
+    fireEvent.click(button)
+    expect(screen.getByText("掃除")).toBeInTheDocument();
+    expect(screen.queryByDisplayValue("勉強")).not.toBeInTheDocument();
+
+  })
+
 })

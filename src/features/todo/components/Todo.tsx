@@ -20,6 +20,10 @@ export const Todo = ({ todo, onDelete, onToggle,onEdit }: Props) => {
     }
     setIsEditing(false);
   }
+  const handleCancel=()=>{
+    setEditText(todo.text)
+    setIsEditing(false)
+  }
 
   return (
     <div>
@@ -31,6 +35,7 @@ export const Todo = ({ todo, onDelete, onToggle,onEdit }: Props) => {
             onKeyDown={(e) => e.key === "Enter" && handleEditSubmit()}
           />
           <button onClick={handleEditSubmit}>保存</button>
+          <button onClick={handleCancel}>Cancel</button>
         </>
       ) : (
         <>

@@ -1,11 +1,14 @@
-# import
-
-```cmd
-npm install
-npm install -D vitest @testing-library/react @testing-library/jest-dom jsdom
-```
-
 # TDDProcedure
+
+## MyConcept
+
+1. UI 作成
+1. Component に分離
+1. 実装する機能を考える
+1. 持つべきデータを考える
+1. 各コンポーネントが持つべき機能とデータを決める
+1. テストを書く
+1. 実装する
 
 ## PlanTheDesign
 
@@ -55,6 +58,13 @@ npm install -D vitest @testing-library/react @testing-library/jest-dom jsdom
   - Func: AddTodo
 
 ## WritingTest
+
+### import
+
+```cmd
+npm install
+npm install -D vitest @testing-library/react @testing-library/jest-dom jsdom
+```
 
 ### Funcs
 

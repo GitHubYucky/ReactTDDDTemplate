@@ -1,15 +1,11 @@
 // src/features/todo/components/TodoList.tsx
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { TodoList } from "./TodoList";
-import type { Todo as TodoType } from "../types/todo";
-
-vi.mock("./Todo", () => ({
-  Todo: ({ todo }: { todo: TodoType }) => <div>{todo.text}</div>,
-}));
+import type { Todo } from "../types/todo";
 
 describe("TodoList", () => {
-  const sampleTodos: TodoType[] = [
+  const sampleTodos: Todo[] = [
     { id: 1, text: "ランニング", done: false },
     { id: 2, text: "読書", done: true },
   ];

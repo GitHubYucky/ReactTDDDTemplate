@@ -2,6 +2,9 @@
 import { useState } from "react";
 import type { Todo } from "../types/todo";
 
+// useTodosでは
+// state todos や　todoにかかわる操作を他でも使えるようにする
+// そしてそれをexport するのだ
 export const useTodos = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
 

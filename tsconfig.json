@@ -5,7 +5,6 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "types": ["vitest", "jsdom"], // ← これを追加
-    // 他の設定もここにある
+    "types": ["vitest/globals", "jsdom", "node"]
   }
 }

@@ -1,6 +1,8 @@
 // features/todo/components/__tests__/TodoInputView.test.tsx
 import { render, screen, fireEvent } from "@testing-library/react";
 import { TodoInputView } from "./TodoInputView";
+import {  test, expect, vi } from "vitest";
+
 
 test("テキスト入力とボタンクリック", () => {
   const handleChange = vi.fn();

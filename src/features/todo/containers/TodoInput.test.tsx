@@ -1,6 +1,8 @@
 // features/todo/containers/__tests__/TodoInput.test.tsx
 import { render, screen, fireEvent } from "@testing-library/react";
 import { TodoInput } from "./TodoInput";
+import { test, expect, vi } from "vitest";
+
 
 test("TodoInput統合テスト", () => {
   const onAdd = vi.fn();

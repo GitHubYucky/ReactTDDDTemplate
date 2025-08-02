@@ -16,6 +16,7 @@ describe("TodoList", () => {
         todos={sampleTodos}
         onDelete={() => {}}
         onToggle={() => {}}
+        onEdit={()=>{}}
       />
     );
 
@@ -25,7 +26,7 @@ describe("TodoList", () => {
 
   it("todosが空のとき、代わりのメッセージが表示される", () => {
     render(
-      <TodoList todos={[]} onDelete={() => {}} onToggle={() => {}} />
+      <TodoList todos={[]} onDelete={() => {}} onToggle={() => {}} onEdit={()=>{}}/>
     );
 
     expect(screen.getByText("TODOがありません")).toBeInTheDocument();

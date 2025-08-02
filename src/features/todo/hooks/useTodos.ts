@@ -28,11 +28,18 @@ export const useTodos = () => {
       )
     );
   };
+  const editTodoText=(id:number,newTodoText:string)=>{
+    setTodos((prev)=>
+      prev.map((todo)=>todo.id===id?{...todo,text:newTodoText}:todo
+      )
+    )
+  }
 
   return {
     todos,
     addTodo,
     deleteTodo,
     toggleTodo,
+    editTodoText
   };
 };

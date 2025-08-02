@@ -16,6 +16,7 @@ describe("Todo", () => {
         todo={sample}
         onDelete={() => {}}
         onToggle={() => {}}
+        onEdit={()=>{}}
       />
     );
     expect(screen.getByText("散歩する")).toBeInTheDocument();
@@ -26,6 +27,7 @@ describe("Todo", () => {
       <Todo
         todo={{ ...sample, done: true }}
         onDelete={() => {}}
+        onEdit={()=>{}}
         onToggle={() => {}}
       />
     );
@@ -40,6 +42,7 @@ describe("Todo", () => {
         todo={sample}
         onDelete={handleDelete}
         onToggle={() => {}}
+        onEdit={()=>{}}
       />
     );
 
@@ -56,10 +59,52 @@ describe("Todo", () => {
         todo={sample}
         onDelete={() => {}}
         onToggle={handleToggle}
+        onEdit={()=>{}}
       />
     );
 
     fireEvent.click(screen.getByText("散歩する"));
     expect(handleToggle).toHaveBeenCalledWith(1);
   });
+
 });
+
+describe("TodoEdit",()=>{
+  const sample = { id: 1, text: "掃除", done: false };
+
+  it("編集ボタンを押すと入力欄が表示される",()=>{
+    render(
+      <Todo todo={sample} onDelete={()=>{}} onToggle={()=>{}} onEdit={()=>{}} />
+    )
+    fireEvent.click(screen.getByText("編集"))
+    expect(screen.getByDisplayValue("掃除")).toBeInTheDocument();
+  })
+  it("保存ボタンを押すとonEditが呼ばれる", () => {
+    const onEdit = vi.fn();
+    render(
+      <Todo todo={sample} onDelete={() => {}} onToggle={() => {}} onEdit={onEdit} />
+    );
+
+    fireEvent.click(screen.getByText("編集"));
+    const input = screen.getByDisplayValue("掃除");
+    fireEvent.change(input, { target: { value: "買い物" } });
+    fireEvent.click(screen.getByText("保存"));
+
+    expect(onEdit).toHaveBeenCalledWith(1, "買い物");
+  });
+
+  it("Enterキーで保存される", () => {
+    const onEdit = vi.fn();
+    render(
+      <Todo todo={sample} onDelete={() => {}} onToggle={() => {}} onEdit={onEdit} />
+    );
+
+    fireEvent.click(screen.getByText("編集"));
+    const input = screen.getByDisplayValue("掃除");
+    fireEvent.change(input, { target: { value: "勉強" } });
+    fireEvent.keyDown(input, { key: "Enter", code: "Enter" });
+
+    expect(onEdit).toHaveBeenCalledWith(1, "勉強");
+  });
+
+})

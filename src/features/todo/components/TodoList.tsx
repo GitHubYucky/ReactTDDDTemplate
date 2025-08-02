@@ -6,9 +6,10 @@ type Props = {
   todos: TodoType[];
   onDelete: (id: number) => void;
   onToggle: (id: number) => void;
+  onEdit:(id:number,newText:string)=>void;
 };
 
-export const TodoList = ({ todos, onDelete, onToggle }: Props) => {
+export const TodoList = ({ todos, onDelete, onToggle,onEdit }: Props) => {
   if (todos.length === 0) {
     return <p>TODOがありません</p>;
   }
@@ -17,7 +18,7 @@ export const TodoList = ({ todos, onDelete, onToggle }: Props) => {
     <ul>
       {todos.map((todo) => (
         <li key={todo.id}>
-          <Todo todo={todo} onDelete={onDelete} onToggle={onToggle} />
+          <Todo todo={todo} onDelete={onDelete} onToggle={onToggle} onEdit={onEdit} />
         </li>
       ))}
     </ul>

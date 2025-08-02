@@ -64,4 +64,19 @@ describe("useTodos", () => {
 
     expect(result.current.todos[0].done).toBe(false);
   });
+
+  it("editTodoTextでtodoTextが変わる",()=>{
+    const {result}=renderHook(()=>useTodos())
+
+    act(()=>{
+      result.current.addTodo("hoge")
+    })
+    const id=result.current.todos[0].id;
+
+    act(()=>{
+      result.current.editTodoText(id,"foo");
+    })
+
+    expect(result.current.todos[0].text).toBe("foo")
+  })
 });

@@ -1,0 +1,37 @@
+// src/features/todo/components/TodoList.tsx
+import { describe, it, expect, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { TodoList } from "./TodoList";
+import type { Todo as TodoType } from "../types/todo";
+
+vi.mock("./Todo", () => ({
+  Todo: ({ todo }: { todo: TodoType }) => <div>{todo.text}</div>,
+}));
+
+describe("TodoList", () => {
+  const sampleTodos: TodoType[] = [
+    { id: 1, text: "ランニング", done: false },
+    { id: 2, text: "読書", done: true },
+  ];
+
+  it("todosが表示される", () => {
+    render(
+      <TodoList
+        todos={sampleTodos}
+        onDelete={() => {}}
+        onToggle={() => {}}
+      />
+    );
+
+    expect(screen.getByText("ランニング")).toBeInTheDocument();
+    expect(screen.getByText("読書")).toBeInTheDocument();
+  });
+
+  it("todosが空のとき、代わりのメッセージが表示される", () => {
+    render(
+      <TodoList todos={[]} onDelete={() => {}} onToggle={() => {}} />
+    );
+
+    expect(screen.getByText("TODOがありません")).toBeInTheDocument();
+  });
+});

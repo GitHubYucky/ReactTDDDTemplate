@@ -1,21 +1,20 @@
-import React from "react";
-import { TodoInput } from "./features/todo/TodoInput";
-import { useTodos } from "./features/todo/hooks/useTodoInput";
+// src/App.tsx
+import { TodoInput } from "./features/todo/components/TodoInput";
+import { TodoList } from "./features/todo/components/TodoList";
+import { useTodos } from "./features/todo/hooks/useTodos";
 
 export const App = () => {
-  const { todos, addTodo } = useTodos();
+  const { todos, addTodo, deleteTodo, toggleTodo } = useTodos();
 
   return (
     <div>
       <h1>Todoアプリ</h1>
-      <TodoInput onAddTodo={addTodo} />
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            {todo.text} {todo.done ? "(完了)" : ""}
-          </li>
-        ))}
-      </ul>
+      <TodoInput onAdd={addTodo} />
+      <TodoList
+        todos={todos}
+        onDelete={deleteTodo}
+        onToggle={toggleTodo}
+      />
     </div>
   );
 };

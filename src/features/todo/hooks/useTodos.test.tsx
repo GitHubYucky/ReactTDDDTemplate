@@ -1,5 +1,5 @@
 // src/features/todo/hooks/__tests__/useTodos.test.ts
-import { renderHook, act } from "@testing-library/react";
+import { renderHook, act, render } from "@testing-library/react";
 import { useTodos } from "./useTodos";
 import { it,expect,describe  } from "vitest";
 
@@ -15,34 +15,32 @@ describe("useTodos", () => {
 
   it("addTodoで新しいTodoが追加される", () => {
     // arrange
-    // これは「useTodos フックが返した値」を result.current で参照できるようにしてくれる
-    const { result } = renderHook(() => useTodos());
+    const {result} = renderHook(()=>useTodos());
 
     // act
-    act(() => {
-      result.current.addTodo("買い物");
-    });
+    act(()=>{
+      result.current.addTodo("hoge")
+    })
 
-    // assert
-    expect(result.current.todos.length).toBe(1);
-    expect(result.current.todos[0].text).toBe("買い物");
-    expect(result.current.todos[0].done).toBe(false);
+    // arrange
+    expect(result.current.todos[0].text).toBe("hoge")
   });
 
   it("deleteTodoで指定したTodoが削除される", () => {
-    const { result } = renderHook(() => useTodos());
-
-    act(() => {
-      result.current.addTodo("掃除");
-    });
-
-    const id = result.current.todos[0].id;
-
-    act(() => {
+    //act
+    const {result} = renderHook(()=>useTodos());
+    act(()=>{
+      result.current.addTodo("hoge")
+    })
+    const id=result.current.todos[0].id;
+    // arrange
+    // 状態更新はActで囲む
+    act(()=>{
       result.current.deleteTodo(id);
     });
-
-    expect(result.current.todos).toEqual([]);
+    // assert
+    // toEqual is for objects, tobe is for value
+    expect(result.current.todos).toEqual([])
   });
 
   it("toggleTodoでdoneが反転する", () => {

@@ -9,6 +9,7 @@
 1. 各コンポーネントが持つべき機能とデータを決める
 1. テストを書く
 1. 実装する
+1. CSS 適用
 
 ## PlanTheDesign
 
@@ -463,4 +464,67 @@ export const App = () => {
     </div>
   );
 };
+```
+
+### CSS
+
+#### Todo
+
+```css
+/* Todo.module.css */
+.todo {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.todoText {
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.done {
+  text-decoration: line-through;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+```
+
+```ts
+// Todo.tsx
+return (
+  <div className={styles.todo}>
+    {isEditing ? (
+      <>
+        <input
+          value={editText}
+          onChange={(e) => setEditText(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleEditSubmit()}
+        />
+        <div className={styles.actions}>
+          <button onClick={handleEditSubmit}>保存</button>
+          <button onClick={handleCancel}>Cancel</button>
+        </div>
+      </>
+    ) : (
+      <>
+        <span
+          onClick={() => onToggle(todo.id)}
+          className={`${styles.todoText} ${todo.done ? styles.done : ""}`}
+        >
+          {todo.text}
+        </span>
+        <div className={styles.actions}>
+          <button onClick={() => setIsEditing(true)}>編集</button>
+          <button onClick={() => onDelete(todo.id)}>削除</button>
+        </div>
+      </>
+    )}
+  </div>
+);
 ```

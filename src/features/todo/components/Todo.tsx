@@ -2,6 +2,8 @@
 import { useState } from "react";
 import type { Todo as TodoType } from "../types/todo";
 import styles from "./Todo.module.css";
+import { Button } from "../../../components/button/button";
+import { Input } from "../../../components/input/input";
 
 type Props = {
   todo: TodoType;
@@ -31,14 +33,14 @@ export const Todo = ({ todo, onDelete, onToggle, onEdit }: Props) => {
     <div className={styles.todo}>
       {isEditing ? (
         <>
-          <input
+          <Input
             value={editText}
             onChange={(e) => setEditText(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleEditSubmit()}
           />
           <div className={styles.actions}>
-            <button onClick={handleEditSubmit}>保存</button>
-            <button onClick={handleCancel}>Cancel</button>
+            <Button variant="primary" onClick={handleEditSubmit}>保存</Button>
+            <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
           </div>
         </>
       ) : (
@@ -50,8 +52,8 @@ export const Todo = ({ todo, onDelete, onToggle, onEdit }: Props) => {
             {todo.text}
           </span>
           <div className={styles.actions}>
-            <button onClick={() => setIsEditing(true)}>編集</button>
-            <button onClick={() => onDelete(todo.id)}>削除</button>
+            <Button variant="primary" onClick={() => setIsEditing(true)}>編集</Button>
+            <Button variant="danger" onClick={() => onDelete(todo.id)}>削除</Button>
           </div>
         </>
       )}

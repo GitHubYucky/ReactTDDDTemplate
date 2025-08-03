@@ -1,22 +1,20 @@
-/* Todo.module.css */
+.actions {
+  display: flex;
+  gap: 0.5rem; /* ボタン間のスペース */
+  align-items: center; /* 高さを揃える */
+  margin-top: 0.5rem;
+}
+
 .todo {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
 
-  .todoText {
-    margin-right: 1rem;
-    cursor: pointer;
-  }
-
-  .done {
-    text-decoration: line-through;
-  }
-
-  .actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-  }
+.todoText {
+  flex: 1;
+}

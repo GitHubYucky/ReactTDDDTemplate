@@ -1,0 +1,22 @@
+/* Todo.module.css */
+.todo {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  .todoText {
+    margin-right: 1rem;
+    cursor: pointer;
+  }
+
+  .done {
+    text-decoration: line-through;
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }

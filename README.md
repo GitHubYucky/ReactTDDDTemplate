@@ -528,3 +528,82 @@ return (
   </div>
 );
 ```
+
+### Components
+
+```ts
+// Todo.tsx
+return (
+  ...
+  <>
+    <span
+      onClick={() => onToggle(todo.id)}
+      className={`${styles.todoText} ${todo.done ? styles.done : ""}`}
+    >
+      {todo.text}
+    </span>
+    <div className={styles.actions}>
+    // Button variant
+      <Button variant="primary" onClick={() => setIsEditing(true)}>
+        編集
+      </Button>
+      <Button variant="danger" onClick={() => onDelete(todo.id)}>
+        削除
+      </Button>
+    </div>
+  </>
+);
+```
+
+```ts
+// src/components/button/button.tsx
+import type { ButtonHTMLAttributes } from "react";
+import styles from "./button.module.css";
+
+type Variant = "primary" | "secondary" | "danger";
+
+type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: Variant;
+};
+
+export const Button = ({ children, variant = "primary", ...props }: Props) => {
+  return (
+    <button className={`${styles.button} ${styles[variant]}`} {...props}>
+      {children}
+    </button>
+  );
+};
+```
+
+```css
+// src/components/button/button.module.css
+.button {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+.primary {
+  background-color: #3182ce;
+}
+.primary:hover {
+  background-color: #2b6cb0;
+}
+
+.secondary {
+  background-color: #718096;
+}
+.secondary:hover {
+  background-color: #4a5568;
+}
+
+.danger {
+  background-color: #e53e3e;
+}
+.danger:hover {
+  background-color: #c53030;
+}
+```

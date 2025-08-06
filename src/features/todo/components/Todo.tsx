@@ -37,6 +37,7 @@ export const Todo = ({ todo, onDelete, onToggle, onEdit }: Props) => {
             value={editText}
             onChange={(e) => setEditText(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleEditSubmit()}
+            placeholder="編集するTODOを入力"
           />
           <div className={styles.actions}>
             <Button variant="primary" onClick={handleEditSubmit}>保存</Button>

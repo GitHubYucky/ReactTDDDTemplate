@@ -2,6 +2,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Todo } from "./Todo";
+import styles from "./Todo.module.css";
 
 describe("Todo", () => {
   const sample = {
@@ -32,7 +33,7 @@ describe("Todo", () => {
       />
     );
     const item = screen.getByText("散歩する");
-    expect(item).toHaveStyle("text-decoration: line-through");
+    expect(item).toHaveClass(styles.done)
   });
 
   it("削除ボタンを押すとonDeleteが呼ばれる", () => {

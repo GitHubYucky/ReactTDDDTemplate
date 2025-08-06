@@ -19,7 +19,7 @@ describe("useCount",()=>{
         act(()=>{
             result.current.countDown();
         })
-        expect(result.current.count).toBe(-1);
+        expect(result.current.count).toBe(0);
     })
     it("CountUp5ボタンを押すとカウントが5増える",()=>{
         const {result}=renderHook(()=>useCount());

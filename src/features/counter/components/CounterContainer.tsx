@@ -1,7 +1,6 @@
 import { useCount } from "../hooks/useCount";
 import { CountDisplay } from "./CountDisplay";
 import { Button } from "../../../components/button/button";
-import { Input } from "../../../components/input/input";
 
 export const CounterContainer=()=>{
     const {count,countUp,countDown,countUpFive,countDownFive,reset}=useCount();

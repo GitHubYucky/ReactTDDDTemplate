@@ -3,6 +3,7 @@ import { TodoInput } from "./features/todo/components/TodoInput";
 import { TodoList } from "./features/todo/components/TodoList";
 import { useTodos } from "./features/todo/hooks/useTodos";
 import styles from "./App.module.css";
+import { CounterContainer } from "./features/counter/components/CounterContainer";
 
 export const App = () => {
   const { todos, addTodo, deleteTodo, toggleTodo, editTodoText } = useTodos();
@@ -17,6 +18,7 @@ export const App = () => {
         onToggle={toggleTodo}
         onEdit={editTodoText}
       />
+      <CounterContainer/>
     </div>
   );
 };

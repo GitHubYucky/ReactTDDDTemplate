@@ -18,7 +18,6 @@ export const App = () => {
         </nav>
 
         <Routes>
-          <Route path="/" element={<div>ホーム画面です</div>} />
           <Route path="/todo" element={<TodoContainer />} />
           <Route path="/counter" element={<CounterContainer />} />
           <Route path="/echo" element={<EchoContainer />} />

@@ -13,7 +13,8 @@
     "test:ui": "vitest --ui",
     "dev": "concurrently \"npm run dev:api\" \"vite\"",
     "dev:api": "ts-node ./src/server/index.ts",
-    "dev:client": "vite"
+    "dev:client": "vite",
+    "css-types": "tcm src --include '**/*.module.css'"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",

@@ -5,6 +5,10 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "types": ["vitest/globals", "jsdom", "node"]
+    "types": ["vitest/globals", "jsdom", "node"],
+    "target": "ES2022",
+    "module": "CommonJS", // ←ここ変更！
+    "esModuleInterop": true,
+    "outDir": "dist"
   }
 }

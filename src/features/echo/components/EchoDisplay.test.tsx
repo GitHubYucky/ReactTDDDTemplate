@@ -5,7 +5,7 @@ import { EchoDisplay } from "./EchoDisplay";
 describe("EchoDisplay",()=>{
     const sampleEcho:string="Hoge";
     it("Echoが表示される",()=>{
-        render(<EchoDisplay echo={sampleEcho} />);
+        render(<EchoDisplay echo={sampleEcho} loading={false} error="" />);
         expect(screen.getByText("Hoge")).toBeInTheDocument();
     })
 })

@@ -1,33 +1,30 @@
-// src/features/todo/components/TodoInput.tsx
 import { useState } from "react";
-import styles from "./EchoInput.module.css";
-import { Button } from "../../../components/button/button";
-import { Input } from "../../../components/input/input";
 
 type Props = {
-  onEcho: (text: string) => void;
+  onEcho: (message: string) => void;
+  disabled?: boolean; // ← 追加
 };
 
-export const EchoInput = ({ onEcho }: Props) => {
+export const EchoInput = ({ onEcho, disabled = false }: Props) => {
   const [text, setText] = useState("");
 
-  const handleSubmit = () => {
-    const trimmed = text.trim();
-    if (!trimmed) return;
-
-    onEcho(trimmed);
-    setText("");
+  const handleClick = () => {
+    if (text.trim() === "") return;
+    onEcho(text);
+    setText("")
   };
 
+
   return (
-    <div className={styles.inputContainer}>
-      <Input
+    <div>
+      <input
         type="text"
-        value={text}
         placeholder="新しいEchoを入力"
+        value={text}
         onChange={(e) => setText(e.target.value)}
+        disabled={disabled} // ← 入力禁止
       />
-      <Button onClick={handleSubmit}>Echo</Button>
+      <button onClick={handleClick} disabled={disabled}>Echo</button> {/* ← ボタンも */}
     </div>
   );
 };

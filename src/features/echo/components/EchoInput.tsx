@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { Input } from "../../../components/input/input";
+import { Button } from "../../../components/button/button";
+import styles from "./EchoInput.module.css";
 
 type Props = {
   onEcho: (message: string) => void;
@@ -16,15 +19,15 @@ export const EchoInput = ({ onEcho, disabled = false }: Props) => {
 
 
   return (
-    <div>
-      <input
+    <div className={styles.inputContainer}>
+      <Input
         type="text"
         placeholder="新しいEchoを入力"
         value={text}
         onChange={(e) => setText(e.target.value)}
         disabled={disabled} // ← 入力禁止
       />
-      <button onClick={handleClick} disabled={disabled}>Echo</button> {/* ← ボタンも */}
+      <Button onClick={handleClick} disabled={disabled}>Echo</Button> {/* ← ボタンも */}
     </div>
   );
 };

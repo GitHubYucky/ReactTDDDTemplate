@@ -1,49 +1,49 @@
 //import
-import { useState } from 'react';
-import type { Coffee } from '../type/coffee';
+import { useState } from "react";
+import type { CoffeeType } from "../type/coffee";
 
-// useCoffees フック
-export const useCoffee=() =>{
-    // datas
-  const [coffees, setCoffees] = useState(<Coffee[]>[]);
-  // fetch error loading
+export const useCoffee = () => {
+  const [coffees, setCoffees] = useState<CoffeeType[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null); // ←ここが重要
+  const [error, setError] = useState<Error | null>(null);
 
-
-    const fetchCoffees=async(type:string)=>{
-       // loading
-       setLoading(true);
-       setError(null);
-
-       try {
-         // type に応じてエンドポイント変更
-         // url だけで表現すべきだな
-
-         const endpoint =
-           type === 'hot' || type === 'iced'
-             ? `https://api.sampleapis.com/coffee/${type}`
-             : 'https://api.sampleapis.com/coffee/iced';
-
-         const resp = await fetch(endpoint);
-         // get res and setType
-         const result:Coffee[] = await resp.json();
-
-         // keyword フィルター
-         // const filtered = keyword
-         //   ? result.filter(item =>
-         //       item.title.toLowerCase().includes(keyword.toLowerCase())
-         //     )
-         //   : result;
-
-         setCoffees(result);
-       } catch (err:any) {
-         setError(err);
-       } finally {
-         setLoading(false);
-       }
-     }
-     return { coffees, loading, error,fetchCoffees };
-
+  // 正規化関数（配列 or 文字列 → 配列）
+  const normalizeIngredients = (value: string[] | string | null | undefined): string[] => {
+    if (Array.isArray(value)) return value.map((s) => s.trim()).filter(Boolean);
+    if (typeof value === "string") {
+      return value
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean);
     }
+    return [];
+  };
 
+  const fetchCoffees = async (type: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const endpoint =
+        type === "hot" || type === "iced"
+          ? `https://api.sampleapis.com/coffee/${type}`
+          : "https://api.sampleapis.com/coffee/iced";
+
+      const resp = await fetch(endpoint);
+      const data = (await resp.json()) as any[];
+
+      // 正規化してからセット
+      const normalized: CoffeeType[] = (data || []).map((item) => ({
+        ...item,
+        ingredients: normalizeIngredients(item.ingredients),
+      }));
+
+      setCoffees(normalized);
+    } catch (err: any) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { coffees, loading, error, fetchCoffees };
+};

@@ -1,27 +1,37 @@
-// // src/App.test.tsx
-// import { describe, it, expect } from "vitest";
-// import { render, screen, fireEvent } from "@testing-library/react";
-// import { App } from "./App";
+// src/App.test.tsx
+import { describe, it, expect, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { App } from "./App";
 
-// describe("App", () => {
-//   it("Todoの追加・表示・削除ができる", () => {
-//     render(<App />);
+vi.mock("./features/todo/components/TodoContainer", () => ({
+  TodoContainer: () => <div>Todo Page</div>,
+}));
+vi.mock("./features/counter/components/CounterContainer", () => ({
+  CounterContainer: () => <div>Counter Page</div>,
+}));
+vi.mock("./features/echo/components/EchoContainer", () => ({
+  EchoContainer: () => <div>Echo Page</div>,
+}));
+vi.mock("./features/coffee/components/CoffeeContainer", () => ({
+  CoffeeContainer: () => <div>Coffee Page</div>,
+}));
 
-//     const input = screen.getByPlaceholderText("新しいTODOを入力");
-//     const button = screen.getByRole("button", { name: "追加" });
+describe("App routing", () => {
+  it("リンククリックでページが切り替わる", async () => {
+    const user = userEvent.setup();
+    render(<App />); // ← MemoryRouter で包まない
 
-//     // 入力 & 追加
-//     fireEvent.change(input, { target: { value: "勉強" } });
-//     fireEvent.click(button);
+    await user.click(screen.getByText("Todo"));
+    expect(screen.getByText("Todo Page")).toBeInTheDocument();
 
-//     // 表示される
-//     expect(screen.getByText("勉強")).toBeInTheDocument();
+    await user.click(screen.getByText("Counter"));
+    expect(screen.getByText("Counter Page")).toBeInTheDocument();
 
-//     // 削除する
-//     const deleteButton = screen.getByRole("button", { name: "削除" });
-//     fireEvent.click(deleteButton);
+    await user.click(screen.getByText("Echo"));
+    expect(screen.getByText("Echo Page")).toBeInTheDocument();
 
-//     // 表示されなくなる
-//     expect(screen.queryByText("勉強")).not.toBeInTheDocument();
-//   });
-// });
+    await user.click(screen.getByText("Coffee"));
+    expect(screen.getByText("Coffee Page")).toBeInTheDocument();
+  });
+});

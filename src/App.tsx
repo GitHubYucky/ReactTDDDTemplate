@@ -4,6 +4,7 @@ import styles from "./App.module.css";
 import { CounterContainer } from "./features/counter/components/CounterContainer";
 import { TodoContainer } from "./features/todo/components/TodoContainer";
 import { EchoContainer } from "./features/echo/components/EchoContainer";
+import { CoffeeContainer } from "./features/coffee/components/CoffeeContainer";
 
 export const App = () => {
   return (
@@ -14,6 +15,7 @@ export const App = () => {
             <li><Link to="/todo">Todo</Link></li>
             <li><Link to="/counter">Counter</Link></li>
             <li><Link to="/echo">Echo</Link></li>
+            <li><Link to="/coffee">Coffee</Link></li>
           </ul>
         </nav>
 
@@ -21,6 +23,7 @@ export const App = () => {
           <Route path="/todo" element={<TodoContainer />} />
           <Route path="/counter" element={<CounterContainer />} />
           <Route path="/echo" element={<EchoContainer />} />
+          <Route path="/coffee" element={<CoffeeContainer />} />
         </Routes>
       </div>
     </BrowserRouter>

@@ -17,6 +17,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
+  "homepage": "https://GitHubYucky.github.io/ReactTDDDTemplate/",
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
     "@testing-library/user-event": "^14.6.1",

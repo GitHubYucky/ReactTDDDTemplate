@@ -11,7 +11,7 @@
     "test:watch": "vitest --watch",
     "test:ui": "vitest --ui",
     "dev": "concurrently \"npm run dev:api\" \"vite\"",
-    "dev:api": "node --inspect=9229 -r ts-node/register ./src/server/index.ts",
+    "dev:api": "tsx --inspect=9229 src/server/index.ts",
     "dev:client": "vite",
     "css-types": "tcm src --include '**/*.module.css'",
     "predeploy": "npm run build",

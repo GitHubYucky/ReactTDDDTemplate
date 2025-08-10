@@ -45,3 +45,5 @@ jobs:
       - name: Deploy to GitHub Pages
         run: |
           npm run deploy  # デプロイを実行
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -25,7 +25,7 @@ jobs:
         run: npm install # 依存パッケージをインストール
 
       - name: Run tests
-        run: npm test -- --coverage # テストを実行
+        run: npm test # テストを実行
 
       - name: Build project
         run: npm run build # 本番用ビルドを作成

@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/ReactTDDDTemplate/', // ← リポジトリ名に合わせる
+  base: process.env.VITE_BASE || '/', // ← Actions/ローカル両対応
   server: {
     proxy: {
       "/api": "http://localhost:3001",

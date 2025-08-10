@@ -9,7 +9,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
-  actions: read # deploy-pages@v4 が要求
+  actions: read
 
 concurrency:
   group: "pages"
@@ -25,13 +25,15 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "node" # 22 でもOK。プロジェクトに合わせて
+          node-version: 20
 
-      - name: Install dependencies
+      - name: Install deps
         run: npm ci
 
-      - name: Build
+      - name: Build (same as local)
         run: npm run build
+        env:
+          VITE_BASE: /ReactTDDDTemplate/ # ← リポジトリ名に合わせる
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -39,14 +41,14 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist # Vite の出力先に合わせる
+          path: ./dist
 
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: dist
+    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

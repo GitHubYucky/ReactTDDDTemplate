@@ -1,39 +1,35 @@
-name: React CI/CD
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main # mainブランチへのpushでCIがトリガーされる
+      - main # mainブランチにプッシュされたときにトリガーされる
   pull_request:
     branches:
-      - main # mainブランチへのPRでCIがトリガーされる
+      - main # mainブランチへのPRでトリガーされる
 
 jobs:
   build:
-    runs-on: ubuntu-latest # CIが実行される環境（Ubuntu）
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3 # リポジトリコードをクローン
+        uses: actions/checkout@v2
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
-          node-version: "16" # 使用するNode.jsのバージョン
+          node-version: "16"
 
       - name: Install dependencies
-        run: npm install # 依存パッケージをインストール
+        run: npm install
 
       - name: Run tests
-        run: npm test # テストを実行
+        run: npm test -- --coverage # テストを実行
 
       - name: Build project
-        run: npm run build # 本番用ビルドを作成
+        run: npm run build # ビルドを実行
 
       - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/main' # mainブランチにマージされた場合のみ実行
-        run: |
-          npm install gh-pages --save-dev
-          npm run deploy  # デプロイコマンドを実行
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }} # GitHubトークンを使用してデプロイ
+        if: github.ref == 'refs/heads/main' # mainブランチへのプッシュ時に実行
+        run: npm run deploy # デプロイを実行

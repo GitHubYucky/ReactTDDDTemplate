@@ -9,7 +9,6 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:watch": "vitest --watch",
-    "test:coverage": "vitest --coverage",
     "test:ui": "vitest --ui",
     "dev": "concurrently \"npm run dev:api\" \"vite\"",
     "dev:api": "node --inspect=9229 -r ts-node/register ./src/server/index.ts",
@@ -53,7 +52,7 @@
     "ts-node": "^10.9.2",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
-    "vite": "^7.0.4",
+    "vite": "^7.1.1",
     "vitest": "^3.2.4"
   }
 }

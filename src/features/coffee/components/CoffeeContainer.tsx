@@ -6,8 +6,8 @@ import styles from "./CoffeeContainer.module.css";
 export const CoffeeContainer = () => {
   const { coffees, fetchCoffees, loading } = useCoffee();
 
-  const handleSearch = (keyword: string) => {
-    fetchCoffees(keyword as any);
+  const handleSearch = (type: string,title:string) => {
+    fetchCoffees(type,title);
   };
 
   return (

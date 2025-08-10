@@ -136,7 +136,7 @@ describe("useCoffee", () => {
   it("iced を取得し ingredients を正規化", async () => {
     const { result } = renderHook(() => useCoffee());
     await act(async () => {
-      await result.current.fetchCoffees("iced");
+      await result.current.fetchCoffees("iced","");
     });
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.error).toBeNull();
@@ -149,7 +149,7 @@ describe("useCoffee", () => {
   it("hot を取得し ingredients を正規化", async () => {
     const { result } = renderHook(() => useCoffee());
     await act(async () => {
-      await result.current.fetchCoffees("hot");
+      await result.current.fetchCoffees("hot","");
     });
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.error).toBeNull();
@@ -162,7 +162,7 @@ describe("useCoffee", () => {
   it("不正 type は iced にフォールバック", async () => {
     const { result } = renderHook(() => useCoffee());
     await act(async () => {
-      await result.current.fetchCoffees("hoge" as any);
+      await result.current.fetchCoffees("hoge" as any,"");
     });
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.error).toBeNull();
@@ -171,4 +171,19 @@ describe("useCoffee", () => {
       "https://api.sampleapis.com/coffee/iced"
     );
   });
-});
+
+  // タイトルによるフィルタのテスト
+  it("title 指定で部分一致（大文字小文字無視）でフィルタされる", async () => {
+    const { result } = renderHook(() => useCoffee());
+
+    await act(async () => {
+      // 'all' は実装上 iced を取得 → そこから "latTE" にマッチする 1 件を期待
+      await result.current.fetchCoffees("all" as any, "laTte");
+    });
+
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    expect(result.current.error).toBeNull();
+    expect(result.current.coffees).toEqual([icedMockApi[1]]);
+  });
+})

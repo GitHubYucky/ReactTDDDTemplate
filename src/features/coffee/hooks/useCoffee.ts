@@ -19,7 +19,7 @@ export const useCoffee = () => {
     return [];
   };
 
-  const fetchCoffees = async (type: string) => {
+  const fetchCoffees = async (type: string,title:string) => {
     setLoading(true);
     setError(null);
     try {
@@ -37,7 +37,15 @@ export const useCoffee = () => {
         ingredients: normalizeIngredients(item.ingredients),
       }));
 
-      setCoffees(normalized);
+      // Coffeeのtitleを引数のTitleでFilterする
+      const filtered =
+      title && title.trim().length > 0
+        ? normalized.filter((c) =>
+            (c.title ?? "").toLowerCase().includes(title.toLowerCase())
+          )
+        : normalized;
+
+      setCoffees(filtered);
     } catch (err: any) {
       setError(err);
     } finally {

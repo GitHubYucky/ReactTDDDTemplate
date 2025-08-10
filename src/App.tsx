@@ -12,6 +12,7 @@ export const App = () => {
       <div className={styles.container}>
         <nav>
           <ul>
+            <li><Link to="/">HomePage</Link></li>
             <li><Link to="/todo">Todo</Link></li>
             <li><Link to="/counter">Counter</Link></li>
             <li><Link to="/echo">Echo</Link></li>

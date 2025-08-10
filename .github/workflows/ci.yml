@@ -31,10 +31,10 @@ jobs:
         run: npm ci
 
       - name: Build (same as local)
-        run: npm run build
-        env:
-          VITE_BASE: /ReactTDDDTemplate/ # ← リポジトリ名に合わせる
-
+        run: |
+          VITE_BASE=/ReactTDDDTemplate/ npm run build
+          # SPA対応（必要なら）
+          cp dist/index.html dist/404.html
       - name: Setup Pages
         uses: actions/configure-pages@v5
 

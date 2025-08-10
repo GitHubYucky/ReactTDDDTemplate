@@ -25,7 +25,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20 # 22 でもOK。プロジェクトに合わせて
+          node-version: "node" # 22 でもOK。プロジェクトに合わせて
 
       - name: Install dependencies
         run: npm ci
@@ -33,7 +33,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          PUBLIC_URL: /Example_App
+          PUBLIC_URL: /ReactTDDDTemplate
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

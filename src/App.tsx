@@ -21,6 +21,7 @@ export const App = () => {
         </nav>
 
         <Routes>
+          <Route path="/" element={<h1>Home Page</h1>} />   {/* これを追加 */}
           <Route path="/todo" element={<TodoContainer />} />
           <Route path="/counter" element={<CounterContainer />} />
           <Route path="/echo" element={<EchoContainer />} />

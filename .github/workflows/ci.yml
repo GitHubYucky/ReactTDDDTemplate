@@ -27,6 +27,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Set git config
+        run: |
+          git config --global user.email "registyucky@gmail.com"
+          git config --global user.name "YukioAso"
+
       # ビルドを実行
       - name: Build project
         run: |

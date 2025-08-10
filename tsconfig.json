@@ -7,7 +7,7 @@
   "compilerOptions": {
     "types": ["vitest/globals", "jsdom", "node"],
     "target": "ES2022",
-    "module": "esnext", // ←ここ変更！
+    "module": "ESNext", // ←ここ変更！
     "esModuleInterop": true,
     "outDir": "dist"
   }

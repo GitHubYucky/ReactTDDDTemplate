@@ -13,23 +13,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # コードをチェックアウト
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Node.js をセットアップ
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3 # 最新バージョン v3 に更新
         with:
           node-version: "16"
 
+      # 依存関係のインストール
       - name: Install dependencies
         run: npm install
 
-      # - name: Run tests
-      #   run: npm run test # テストを実行
-
+      # ビルドを実行
       - name: Build project
-        run: npm run build # ビルドを実行
+        run: |
+          echo "Starting build process..."
+          npm run build  # ビルドを実行
+          echo "Build completed."
 
+      # デプロイを実行（mainブランチへのプッシュ時のみ）
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main' # mainブランチへのプッシュ時に実行
-        run: npm run deploy # デプロイを実行
+        run: |
+          echo "Deploying to GitHub Pages..."
+          npm run deploy  # デプロイを実行
+          echo "Deployment completed."

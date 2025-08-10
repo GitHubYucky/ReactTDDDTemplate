@@ -4,7 +4,7 @@ import { CoffeeList } from "./CoffeeList";
 import styles from "./CoffeeContainer.module.css";
 
 export const CoffeeContainer = () => {
-  const { coffees, fetchCoffees, loading, error } = useCoffee();
+  const { coffees, fetchCoffees, loading } = useCoffee();
 
   const handleSearch = (keyword: string) => {
     fetchCoffees(keyword as any);

@@ -8,7 +8,7 @@ import { CoffeeContainer } from "./features/coffee/components/CoffeeContainer";
 
 export const App = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className={styles.container}>
         <nav>
           <ul>

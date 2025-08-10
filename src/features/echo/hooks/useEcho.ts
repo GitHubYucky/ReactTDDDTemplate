@@ -9,6 +9,12 @@ export const useEcho = () => {
     setLoading(true);
     setError("");
     try {
+      if (import.meta.env.PROD && !import.meta.env.VITE_API_BASE) {
+        // 本番＆API先未設定 → モック応答
+        await new Promise(r => setTimeout(r, 200));
+        setEcho(message);
+        return;
+      }
       const res = await fetch("/api/echo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

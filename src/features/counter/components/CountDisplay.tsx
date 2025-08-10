@@ -1,7 +1,9 @@
-type Props={
-    count:number;
-}
+import styles from "./CountDisplay.module.css";
 
-export const CountDisplay=({count}:Props)=>{
-    return <div>{count}</div>;
-}
+type Props = {
+  count: number;
+};
+
+export const CountDisplay = ({ count }: Props) => {
+  return <div className={styles.count}>{count}</div>;
+};

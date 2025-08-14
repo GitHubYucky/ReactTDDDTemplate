@@ -12,5 +12,6 @@ export const echoHandler = (req: Request, res: Response) => {
     return res.status(400).json({ message: "Missing 'message'" });
   }
 
+``
   return res.status(200).json({ echoed: message });
 };

@@ -4,7 +4,7 @@ import { CoffeeList } from "./CoffeeList";
 import styles from "./CoffeeContainer.module.css";
 
 export const CoffeeContainer = () => {
-  const { coffees, fetchCoffees, loading } = useCoffee();
+  const { coffees, fetchCoffees, loading,error } = useCoffee();
 
   const handleSearch = (type: string,title:string) => {
     fetchCoffees(type,title);
@@ -13,12 +13,12 @@ export const CoffeeContainer = () => {
   return (
     <div className={styles.container}>
       <div className={styles.searchSection}>
-        <CoffeeInput onSearch={handleSearch} />
+        <CoffeeInput onSearch={handleSearch} disabled={loading}/>
       </div>
 
       {loading && <p className={styles.loading}>Loading...</p>}
 
-      <CoffeeList coffees={coffees} />
+      <CoffeeList coffees={coffees} loading={loading} error={error}/>
     </div>
   );
 };

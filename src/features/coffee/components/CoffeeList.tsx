@@ -4,13 +4,14 @@ import styles from "@/features/coffee/components/CoffeeList.module.css";
 
 type Props = {
   coffees: CoffeeType[];
-  emptyText?: string;
+  loading:boolean;
+  error:Error|null;
 };
 
-export const CoffeeList = ({ coffees, emptyText = "No coffees." }: Props) => {
-  if (!coffees?.length) {
-    return <p className={styles.empty}>{emptyText}</p>;
-  }
+export const CoffeeList = ({ coffees,loading,error }: Props) => {
+  if (loading) return <p>送信中...</p>;
+  if (error) return <p style={{ color: "red" }}>Error</p>;
+  if (!coffees) return null;
 
   return (
     <section className={styles.list} aria-label="coffee list">

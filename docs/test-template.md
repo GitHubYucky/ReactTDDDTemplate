@@ -415,5 +415,144 @@ export const CoffeeContainer = () => {
 ### テスト例
 
 ```tsx
+// coffee/components/CoffeeContainer.test.tsx
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { CoffeeContainer } from "./CoffeeContainer";
 
+// fetch をグローバルにモック
+global.fetch = vi.fn();
+
+describe("CoffeeContainer", () => {
+  // before test: clear mock
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("CoffeeInputとCoffeeListが表示される", () => {
+    // render
+    render(<CoffeeContainer />);
+    expect(
+      screen.getByPlaceholderText("Search coffeeType...")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("Search CoffeeTitle...")
+    ).toBeInTheDocument();
+  });
+
+  it("CoffeeInputでSearchを押すと入力値が表示される", async () => {
+    // sample fetch
+    (fetch as any).mockResolvedValue({
+      ok: true,
+      json: async () => ({ echoed: "新しいタスク" }),
+    });
+
+    // render
+    render(<CoffeeContainer />);
+
+    const input = screen.getByPlaceholderText("Search coffeeType...");
+    fireEvent.change(input, { target: { value: "iced" } });
+
+    const button = screen.getByText("Search");
+    fireEvent.click(button);
+
+    //assert
+    // when you call api, you should use await,waitfor
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalledTimes(1);
+      expect(fetch).toHaveBeenCalledWith(
+        "https://api.sampleapis.com/coffee/iced"
+      );
+    });
+  });
+
+  it("通信中はローディングメッセージが表示される", async () => {
+    // sample fetching...
+    let resolveFetch: ((value: any) => void) | undefined;
+
+    (fetch as any).mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          resolveFetch = resolve;
+        })
+    );
+
+    // render
+    render(<CoffeeContainer />);
+
+    const input = screen.getByPlaceholderText("Search coffeeType...");
+    fireEvent.change(input, { target: { value: "iced" } });
+
+    fireEvent.click(screen.getByText("Search"));
+
+    expect(screen.getByText("送信中...")).toBeInTheDocument();
+
+    // resolve=finish your fetch
+    resolveFetch?.({
+      ok: true,
+      json: async () => ({ echoed: "loading中" }),
+    });
+
+    // assert
+    await waitFor(() => {
+      expect(screen.queryByText("送信中...")).not.toBeInTheDocument();
+    });
+  });
+
+  it("API失敗時にエラー表示される", async () => {
+    // sample fetching...
+    (fetch as any).mockResolvedValue({
+      ok: false,
+    });
+
+    render(<CoffeeContainer />);
+
+    const input = screen.getByPlaceholderText("Search coffeeType...");
+    fireEvent.change(input, { target: { value: "iced" } });
+
+    fireEvent.click(screen.getByText("Search"));
+
+    // assert
+    await waitFor(() => {
+      expect(screen.getByText("Error")).toBeInTheDocument();
+    });
+  });
+  it("ローディング中は入力とボタンが無効化される", async () => {
+    // sample fetching...
+    let resolveFetch: ((value: any) => void) | undefined;
+
+    (fetch as any).mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          resolveFetch = resolve;
+        })
+    );
+
+    render(<CoffeeContainer />);
+
+    const input = screen.getByPlaceholderText(
+      "Search coffeeType..."
+    ) as HTMLInputElement; // to check if the input is disabled, you should type this
+    const button = screen.getByText("Search");
+
+    fireEvent.change(input, { target: { value: "iced" } });
+    fireEvent.click(button);
+
+    // input type should be HTMLInputElement
+    expect(input).toBeDisabled();
+    expect(button).toBeDisabled();
+
+    // finish your fetch
+    resolveFetch?.({
+      ok: true,
+      json: async () => ({ echoed: "待機" }),
+    });
+
+    // assert
+    await waitFor(() => {
+      expect(input.disabled).toBe(false);
+      expect(button).not.toBeDisabled();
+    });
+  });
+});
 ```

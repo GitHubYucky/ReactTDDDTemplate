@@ -25,6 +25,6 @@ export const useCount = () => {
     countDown,
     countUpFive,
     countDownFive,
-    reset: resetCount,
+    resetCount,
   };
 };

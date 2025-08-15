@@ -4,7 +4,7 @@ import { CountControls } from "./CountControls";
 import styles from "./CounterContainer.module.css";
 
 export const CounterContainer = () => {
-  const { count, countUp, countDown, countUpFive, countDownFive, reset } =
+  const { count, countUp, countDown, countUpFive, countDownFive, resetCount } =
     useCount();
 
   return (
@@ -15,7 +15,7 @@ export const CounterContainer = () => {
         onCountDown={countDown}
         onCountUpFive={countUpFive}
         onCountDownFive={countDownFive}
-        onReset={reset}
+        onReset={resetCount}
       />
     </div>
   );

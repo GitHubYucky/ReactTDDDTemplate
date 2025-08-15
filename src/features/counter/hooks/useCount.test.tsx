@@ -57,7 +57,7 @@ describe("useCount (Redux)", () => {
       const { wrapper } = createWrapper();
       const { result } = renderHook(() => useCount(), { wrapper });
       act(() => result.current.countUpFive());
-      act(() => result.current.reset());
+      act(() => result.current.resetCount());
       expect(result.current.count).toBe(0);
     });
   });

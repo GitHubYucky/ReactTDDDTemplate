@@ -6,7 +6,7 @@ import { Input } from "@/components/input/input";
 
 type Props = {
   onSearch: (type: string, title: string) => void;
-  disabled: boolean; // ← 追加
+  disabled?: boolean; // ← 追加
 };
 
 export const CoffeeInput = ({ onSearch,disabled=false }: Props) => {

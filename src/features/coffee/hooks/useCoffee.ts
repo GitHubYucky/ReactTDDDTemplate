@@ -1,6 +1,6 @@
 //import
 import { useState } from "react";
-import type { CoffeeType } from "../type/coffee";
+import type { CoffeeType } from "@/features/coffee/type/coffee";
 
 export const useCoffee = () => {
   const [coffees, setCoffees] = useState<CoffeeType[]>([]);

@@ -4,11 +4,11 @@ import styles from "@/features/coffee/components/CoffeeList.module.css";
 
 type Props = {
   coffees: CoffeeType[];
-  loading:boolean;
-  error:Error|null;
+  loading?:boolean;
+  error?:Error|null;
 };
 
-export const CoffeeList = ({ coffees,loading,error }: Props) => {
+export const CoffeeList = ({ coffees,loading=false,error=null }: Props) => {
   if (loading) return <p>送信中...</p>;
   if (error) return <p style={{ color: "red" }}>Error</p>;
   if (!coffees) return null;

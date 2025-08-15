@@ -17,7 +17,7 @@ export const useMp3Downloader = () => {
     const url = new URL(video_url);
     const id = url.searchParams.get("v");
     if (!id) {
-      throw new Error("Invalid YouTube URL: video ID not found");
+      throw new Error(`Invalid YouTube URL: video ID not found url:${url}`);
     }
 
     try {

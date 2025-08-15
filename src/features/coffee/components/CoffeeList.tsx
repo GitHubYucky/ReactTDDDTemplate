@@ -1,5 +1,5 @@
-import type { CoffeeType } from "../type/coffee";
-import { Coffee } from "./Coffee";
+import type { CoffeeType } from "@/features/coffee/type/coffee";
+import { Coffee } from "@/features/coffee/components/Coffee";
 import styles from "./CoffeeList.module.css";
 
 type Props = {

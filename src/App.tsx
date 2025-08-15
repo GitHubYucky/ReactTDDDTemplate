@@ -1,11 +1,11 @@
 // src/App.tsx
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import styles from "./App.module.css";
-import { CounterContainer } from "./features/counter/components/CounterContainer";
-import { TodoContainer } from "./features/todo/components/TodoContainer";
-import { EchoContainer } from "./features/echo/components/EchoContainer";
-import { CoffeeContainer } from "./features/coffee/components/CoffeeContainer";
-import { Mp3Container } from "./features/mp3-downloader/components/mp3-container";
+import { CounterContainer } from "@/features/counter/components/CounterContainer";
+import { TodoContainer } from "@/features/todo/components/TodoContainer";
+import { EchoContainer } from "@/features/echo/components/EchoContainer";
+import { CoffeeContainer } from "@/features/coffee/components/CoffeeContainer";
+import { Mp3Container } from "@/features/mp3-downloader/components/mp3-container";
 
 export const App = () => {
   return (

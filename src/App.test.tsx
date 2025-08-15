@@ -1,8 +1,8 @@
 // src/App.test.tsx
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect,vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { App } from "./App";
+import { App } from "@/App";
 
 vi.mock("./features/todo/components/TodoContainer", () => ({
   TodoContainer: () => <div>Todo Page</div>,

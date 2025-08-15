@@ -11,7 +11,7 @@
     "test:watch": "vitest --watch",
     "test:ui": "vitest --ui",
     "dev": "concurrently -k \"npm:dev:api\" \"vite --port 5173\"",
-    "dev:api": "tsx watch --inspect=0 src/server/index.ts",
+    "dev:api": "node --import=dotenv/config --enable-source-maps --inspect=9229 ./node_modules/tsx/dist/cli.mjs watch src/server/index.ts",
     "dev:client": "vite",
     "css-types": "tcm src --include '**/*.module.css'",
     "predeploy": "npm run build",
@@ -23,9 +23,11 @@
     "@testing-library/user-event": "^14.6.1",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "next": "^15.4.6",
     "node-fetch": "^3.3.2",
+    "path": "^0.12.7",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-redux": "^9.2.0",
@@ -57,6 +59,7 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
     "vite": "^7.1.1",
+    "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4"
   }
 }

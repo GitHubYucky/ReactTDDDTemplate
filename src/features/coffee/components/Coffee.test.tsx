@@ -2,8 +2,8 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
-import { Coffee } from "./Coffee";
-import type { CoffeeType } from "../type/coffee";
+import { Coffee } from "@/features/coffee/components/Coffee";
+import type { CoffeeType } from "@/features/coffee/type/coffee";
 
 const sample: CoffeeType = {
   id: 42,

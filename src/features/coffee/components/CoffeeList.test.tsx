@@ -2,8 +2,8 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
-import { CoffeeList } from "./CoffeeList";
-import type { CoffeeType } from "../type/coffee";
+import { CoffeeList } from "@/features/coffee/components/CoffeeList";
+import type { CoffeeType } from "@/features/coffee/type/coffee";
 
 // テスト用データ
 const coffees: CoffeeType[] = [

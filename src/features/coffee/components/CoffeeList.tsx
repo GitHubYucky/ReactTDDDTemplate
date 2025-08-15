@@ -1,6 +1,6 @@
 import type { CoffeeType } from "@/features/coffee/type/coffee";
 import { Coffee } from "@/features/coffee/components/Coffee";
-import styles from "./CoffeeList.module.css";
+import styles from "@/features/coffee/components/CoffeeList.module.css";
 
 type Props = {
   coffees: CoffeeType[];

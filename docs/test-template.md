@@ -58,22 +58,20 @@ export const Coffee = ({ coffee }: Props) => {
 };
 ```
 
-### テストルール（要点）
-
-- **役割ベースで検証**：`article` / `heading` / `img` / `listitem`
-- **カード単位での検証**：`within(article)` で誤検出を防ぐ
-- **境界値**：`ingredients` が空でも壊れない
-
 ### サンプルテスト
 
 ```tsx
 // src/features/coffee/components/Coffee.test.tsx
+// import commons
 import { describe, it, expect } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
+// import component
 import { Coffee } from "./Coffee";
+// import type
 import type { CoffeeType } from "@/features/coffee/type/coffee";
 
+// set sample data
 const sample: CoffeeType = {
   id: 42,
   title: "Iced Latte",
@@ -84,8 +82,11 @@ const sample: CoffeeType = {
 
 describe("<Coffee />", () => {
   it("見出し・画像・説明・材料・ID が表示される", () => {
+    // arrange
+    // render the component
     render(<Coffee coffee={sample} />);
 
+    // assert
     const card = screen.getByRole("article", { name: /coffee-42/ });
     const ui = within(card);
 
@@ -148,12 +149,76 @@ export const CoffeeList = ({ coffees, emptyText = "No coffees" }: Props) => {
 };
 ```
 
-### テストルール（要点）
+### サンプルテスト
 
-- **件数一致**：`article` の数 = 入力配列の長さ
-- **順序一致**：i 番目のカードが i 番目のデータに対応
-- **空状態**：`role="status"` のメッセージを検証
-- **スコープ**：各 `article` で中身を検証（`within`）
+```tsx
+// src/features/coffee/components/CoffeeList.test.tsx
+// common
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom/vitest";
+// component
+import { CoffeeList } from "@/features/coffee/components/CoffeeList";
+// type
+import type { CoffeeType } from "@/features/coffee/type/coffee";
+
+// sample datas
+const coffees: CoffeeType[] = [
+  {
+    id: 1,
+    title: "Espresso",
+    description: "Strong and bold.",
+    image: "https://example.com/espresso.jpg",
+    ingredients: ["Espresso"],
+  },
+  {
+    id: 2,
+    title: "Iced Latte",
+    description: "Smooth and refreshing.",
+    image: "https://example.com/iced-latte.jpg",
+    ingredients: ["Espresso", "Milk", "Ice"],
+  },
+];
+
+describe("<CoffeeList />", () => {
+  it("渡したコーヒー配列の件数分、カード(article)が表示される", () => {
+    // act
+    render(<CoffeeList coffees={coffees} />);
+
+    // assert
+    // <Coffee /> が <article> を使っている想定（あなたの Coffee コンポーネントに合わせる）
+    const cards = screen.getAllByRole("article");
+    expect(cards).toHaveLength(coffees.length);
+
+    // タイトルが表示されていること
+    coffees.forEach((c) => {
+      expect(
+        screen.getByRole("heading", { level: 2, name: c.title })
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("画像(alt=title)も各カードに表示される", () => {
+    render(<CoffeeList coffees={coffees} />);
+
+    coffees.forEach((c) => {
+      const img = screen.getByRole("img", { name: c.title });
+      expect(img).toBeInTheDocument();
+      expect(img).toHaveAttribute("src", c.image);
+    });
+  });
+
+  it("空配列のときはカードが表示されない（必要なら空メッセージも検証）", () => {
+    render(<CoffeeList coffees={[]} />);
+
+    // article が 0 件
+    expect(screen.queryAllByRole("article")).toHaveLength(0);
+
+    // もし空状態メッセージを出す実装なら、以下のように検証
+    // expect(screen.getByText(/no coffees/i)).toBeInTheDocument();
+  });
+});
+```
 
 ## 3. ロジックの例　 useCoffee.ts
 
@@ -221,16 +286,19 @@ export const useCoffee = () => {
 };
 ```
 
+### サンプルテスト
+
 ```ts
 // useCoffee.test.ts
 // これは useCoffee という機能をテストする例です。
 // 「どう書けばいいか」をわかりやすくコメントしています。
-
+// common
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { act, renderHook, waitFor } from "@testing-library/react";
+// hook
 import { useCoffee } from "@/features/coffee/hooks/useCoffee";
 
-// --- テスト用のデータ（APIから返ってくる形）---
+// testDatas
 const icedData = [
   {
     id: 1,
@@ -248,7 +316,7 @@ const icedData = [
   },
 ];
 
-// --- 正しい形に変換された後のデータ ---
+// testDatas2
 const icedExpected = [
   {
     id: 1,
@@ -266,36 +334,45 @@ const icedExpected = [
   },
 ];
 
-// --- 簡単な Response を作る関数 ---
+// create sampleRes
 const makeRes = (data) => new Response(JSON.stringify(data), { status: 200 });
 
 describe("useCoffee のテスト", () => {
-  // テスト前に fetch をニセモノにする
+  // before each test
+  // if you call fetch then makeRes is called
   beforeEach(() => {
     vi.spyOn(globalThis, "fetch").mockResolvedValue(makeRes(icedData));
   });
 
-  // テスト後に元に戻す
+  // restore after each
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
   it("最初は空っぽの状態", () => {
+    // arrange
+    // set useCoffee to result
     const { result } = renderHook(() => useCoffee());
+    // assert
+    // toEqual=object, toBe=value
     expect(result.current.coffees).toEqual([]); // データなし
     expect(result.current.loading).toBe(false); // 読み込み中じゃない
     expect(result.current.error).toBeNull(); // エラーなし
   });
 
   it("データを取得して変換できる", async () => {
+    // arrange
     const { result } = renderHook(() => useCoffee());
 
-    // 実行
+    // act
+    // you should use with await async
+    // if you test fetch func, you should use async await
     await act(async () => {
       await result.current.fetchCoffees("iced", "");
     });
 
-    // 確認
+    // assert
+    // the value is changed when you call fetch func, you should use waitFor
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.error).toBeNull();
     expect(result.current.coffees).toEqual(icedExpected);

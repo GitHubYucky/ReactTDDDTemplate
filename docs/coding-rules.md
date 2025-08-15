@@ -33,15 +33,18 @@ src/
     mp3-downloader/
     todo/
   stores/                   # アプリ横断の状態（Redux/Zustand等）
+    counter/
+      counterSlice.test.ts
+      counterSlice.ts
   types/                    # アプリ全体で再利用する型
 ```
 
 ### フォルダの責務
 
-- **apis/**: データ取得/更新の I/O（HTTP・ストレージ）。副作用を集約し、UI から切り離す。
-- **components/**: プレゼンテーション中心。容器（Container）と部品（Input/List 等）を分け、Props でやり取り。
-- **hooks/**: ビジネスロジック・状態管理をカスタムフックに集約。UI から独立してテスト可能に。
-- **type/**: その機能だけで使う型。横断的な型は `src/types` へ。
+- **apis/**: データ取得/更新の I/O（HTTP・ストレージ）。副作用を集約し、UI から切り離す。 ex. echo/apis/echo.ts
+- **components/**: プレゼンテーション中心。容器（Container）と部品（Input/List 等）を分け、Props でやり取り。ex. echo/components/
+- **hooks/**: ビジネスロジック・状態管理をカスタムフックに集約。UI から独立してテスト可能に。 ex. echo/hooks/useEcho.ts
+- **type/**: その機能だけで使う型。横断的な型は `src/types` へ。 ex. coffee/type/coffee
 
 ---
 
@@ -52,16 +55,58 @@ src/
 - **テスト**: `*.test.ts` / `*.test.tsx` を実装と同フォルダに配置
 - **スタイル**: `ComponentName.module.css`
 - **定数**: スネークケース大文字（`MAX_RETRY`）
-- **型**: `TypeName` / `XXXResponse` / `XXXParams` など目的語で命名
 
 ---
 
 ## 3. コーディングスタイル（TypeScript）
 
 - **Props の型定義は必須**（`type` または `interface`）。外部公開の Props は `Props` サフィックス。
-- 可能な限り **`any` を禁止**。`unknown` を用いて段階的に絞る。
-- 非同期は `async/await` を標準化。エラーは `Result` ライクにラップ or 例外を捕捉して UI に伝播。
-- マジックナンバー/文字列は定数化し、**再利用と変更容易性**を高める。
+
+```ts
+// Coffee.tsx
+type Props = {
+  coffee: CoffeeType;
+};
+```
+
+- 非同期は `async/await` を標準化。
+
+```ts
+const fetchCoffees = async (type: string, title: string) => {
+  setLoading(true);
+  setError(null);
+  try {
+    const endpoint =
+      type === "hot" || type === "iced"
+        ? `https://api.sampleapis.com/coffee/${type}`
+        : "https://api.sampleapis.com/coffee/iced";
+
+    const resp = await fetch(endpoint);
+    const data = (await resp.json()) as any[];
+
+    // 正規化してからセット
+    const normalized: CoffeeType[] = (data || []).map((item) => ({
+      ...item,
+      ingredients: normalizeIngredients(item.ingredients),
+    }));
+
+    // Coffeeのtitleを引数のTitleでFilterする
+    const filtered =
+      title && title.trim().length > 0
+        ? normalized.filter((c) =>
+            (c.title ?? "").toLowerCase().includes(title.toLowerCase())
+          )
+        : normalized;
+
+    setCoffees(filtered);
+  } catch (err: any) {
+    setError(err);
+  } finally {
+    setLoading(false);
+  }
+};
+```
+
 - import は **絶対パスエイリアス**を推奨（例：`@/features/coffee/...`）。
 
 ---
@@ -69,8 +114,6 @@ src/
 ## 4. Hooks とコンポーネントの分離
 
 - UI ロジック以外（取得・計算・永続化・状態合成）は **カスタムフックへ**。
-- 再計算コストの高い値は `useMemo`、コールバックは `useCallback`。依存配列は型セーフに維持。
-- 副作用は `useEffect` に隔離し、**I/O と状態変更の順序**を明確化。
 
 ```tsx
 // 例: features/coffee/hooks/useCoffee.ts
@@ -87,6 +130,7 @@ export const useCoffee = () => {
 - 例外を握りつぶさず、呼び出し側に **成功/失敗の情報**を返す。
 - **キー/シークレットは絶対にクライアントに埋め込まない**。必要に応じて **サーバ or エッジ関数**を仲介。
 - 取得直後の値は **型ガード or zod** でバリデーション。
+  ex. echo/apis/echo.ts
 
 ---
 
@@ -95,6 +139,7 @@ export const useCoffee = () => {
 - **CSS Modules** を標準。グローバルは極小化。
 - クラス名の粒度は **意味（役割）**ベース（`container`, `title`, `list` 等）。
 - デザインシステム/トークン（色・余白・フォント）を定義して再利用。
+  ex. Coffee.module.css
 
 ---
 
@@ -102,6 +147,7 @@ export const useCoffee = () => {
 
 - GitHub Pages のサブパス配信時は `BrowserRouter basename={import.meta.env.BASE_URL}` を使用。
 - 404 対策（SPA 用リダイレクト）を設定。
+  ex. App.tsx
 
 ---
 
@@ -111,6 +157,7 @@ export const useCoffee = () => {
 - **配置**: 実装と同階層に `*.test.ts(x)` を置く。
 - **モック**: API 呼び出しや時間依存コードは `vi.fn()` / `vi.mock()` でモック化。
 - **カバレッジ**: 重要ロジックは分岐網羅（条件分岐、例外系）。
+  ex. Coffee.test.tsx
 
 ---
 

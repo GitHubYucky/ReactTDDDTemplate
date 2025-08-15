@@ -556,3 +556,74 @@ describe("CoffeeContainer", () => {
   });
 });
 ```
+
+## 5. Store の例: counterSlice.ts
+
+### 実装例(ソース)
+
+```ts
+// src/features/counter/counterSlice.ts
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+  value: 0,
+};
+
+const counterSlice = createSlice({
+  name: "counter",
+  initialState,
+  reducers: {
+    increment: (state) => {
+      state.value += 1;
+    },
+    decrement: (state) => {
+      state.value -= 1;
+    },
+    reset: (state) => {
+      state.value = 0;
+    },
+    incrementByFive: (state) => {
+      state.value += 5;
+    },
+    decrementByFive: (state) => {
+      state.value -= 5;
+    },
+  },
+});
+
+export const { increment, decrement, reset, incrementByFive, decrementByFive } =
+  counterSlice.actions;
+export default counterSlice.reducer;
+```
+
+### テスト
+
+```ts
+// src/features/counter/counterSlice.test.ts
+import { describe, it, expect } from "vitest";
+import counterReducer, { increment, decrement, reset } from "./counterSlice";
+
+describe("counterSlice", () => {
+  it("初期状態を返す", () => {
+    expect(counterReducer(undefined, { type: "@@INIT" })).toEqual({ value: 0 });
+  });
+
+  it("incrementで1増加する", () => {
+    const initialState = { value: 0 };
+    const newState = counterReducer(initialState, increment());
+    expect(newState.value).toBe(1);
+  });
+
+  it("decrementで1減少する", () => {
+    const initialState = { value: 3 };
+    const newState = counterReducer(initialState, decrement());
+    expect(newState.value).toBe(2);
+  });
+
+  it("resetで0に戻る", () => {
+    const initialState = { value: 10 };
+    const newState = counterReducer(initialState, reset());
+    expect(newState.value).toBe(0);
+  });
+});
+```

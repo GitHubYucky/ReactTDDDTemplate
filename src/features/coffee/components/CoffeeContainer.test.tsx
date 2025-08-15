@@ -100,7 +100,7 @@ describe("CoffeeContainer", () => {
     fireEvent.change(input, { target: { value: "iced" } });
     fireEvent.click(button);
 
-    expect(input.disabled).toBe(true);
+    expect(input).toBeDisabled();
     expect(button).toBeDisabled();
 
     resolveFetch?.({

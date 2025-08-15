@@ -379,3 +379,41 @@ describe("useCoffee のテスト", () => {
   });
 });
 ```
+
+## 4. Container の例: `<CoffeeContainer /> CoffeeContainer.tsx
+
+### 実装例(ソース)
+
+```tsx
+// coffee/components/CoffeeContainer.tsx
+import { useCoffee } from "../hooks/useCoffee";
+import { CoffeeInput } from "./CoffeeInput";
+import { CoffeeList } from "./CoffeeList";
+import styles from "./CoffeeContainer.module.css";
+
+export const CoffeeContainer = () => {
+  const { coffees, fetchCoffees, loading } = useCoffee();
+
+  const handleSearch = (type: string, title: string) => {
+    fetchCoffees(type, title);
+  };
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.searchSection}>
+        <CoffeeInput onSearch={handleSearch} />
+      </div>
+
+      {loading && <p className={styles.loading}>Loading...</p>}
+
+      <CoffeeList coffees={coffees} />
+    </div>
+  );
+};
+```
+
+### テスト例
+
+```tsx
+
+```

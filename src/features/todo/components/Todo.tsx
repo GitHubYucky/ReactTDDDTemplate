@@ -15,12 +15,15 @@ export const Todo = ({ todo, onDelete, onToggle, onEdit }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(todo.text);
 
-  const handleEditSubmit = () => {
+  const submitEdit = () => {
     const trimmed = editText.trim();
-    if (trimmed && trimmed !== todo.text) {
-      onEdit(todo.id, trimmed);
-    }
+    if (trimmed && trimmed !== todo.text) onEdit(todo.id, trimmed);
     setIsEditing(false);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    submitEdit();
   };
 
   const handleCancel = () => {
@@ -35,21 +38,17 @@ export const Todo = ({ todo, onDelete, onToggle, onEdit }: Props) => {
       }`}
     >
       {isEditing ? (
-        <form onSubmit={handleEditSubmit}>
+        <form onSubmit={handleSubmit} className="flex items-center gap-2 w-full">
           <Input
             value={editText}
             onChange={(e) => setEditText(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleEditSubmit()}
             placeholder="編集するTODOを入力"
+            className="flex-1"
           />
-          <div className="flex items-center gap-2 mt-2">
-            <Button variant="primary" type="submit">
-              保存
-            </Button>
-            <Button variant="secondary" onClick={handleCancel}>
-              Cancel
-            </Button>
-          </div>
+          <Button variant="primary" type="submit">保存</Button>
+          <Button variant="secondary" type="button" onClick={handleCancel}>
+            取消
+          </Button>
         </form>
       ) : (
         <>
@@ -59,7 +58,7 @@ export const Todo = ({ todo, onDelete, onToggle, onEdit }: Props) => {
           >
             {todo.text}
           </span>
-          <div className="flex items-center gap-2 ml-3">
+          <div className="flex items-center gap-3 ml-3">
             <Button variant="primary" onClick={() => setIsEditing(true)}>
               編集
             </Button>

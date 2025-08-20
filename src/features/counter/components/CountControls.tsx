@@ -18,7 +18,7 @@ export const CountControls = ({
   onReset,
 }: Props) => {
   return (
-    <div className={styles.buttonGroup}>
+    <div className="flex flex-wrap gap-2 justify-center">
       <Button onClick={onCountUp}>CountUp</Button>
       <Button onClick={onCountDown}>CountDown</Button>
       <Button onClick={onCountUpFive}>CountUp5</Button>

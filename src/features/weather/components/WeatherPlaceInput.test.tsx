@@ -3,10 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { WeatherPlaceInput } from "./WeatherPlaceInput";
 
-// window.alert をモック
-beforeEach(() => {
-  vi.spyOn(window, "alert").mockImplementation(() => {});
-});
+
 
 describe("WeatherPlaceInput", () => {
   it("緯度・経度を入力して送信すると onSearch が呼ばれる", () => {
@@ -23,7 +20,6 @@ describe("WeatherPlaceInput", () => {
 
     // フォーム送信
     fireEvent.click(screen.getByText("天気を取得"));
-
     expect(mockOnSearch).toHaveBeenCalledWith(35.0, 135.0);
   });
 

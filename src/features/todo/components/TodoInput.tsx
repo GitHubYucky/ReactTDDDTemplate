@@ -1,6 +1,5 @@
 // src/features/todo/components/TodoInput.tsx
 import { useState } from "react";
-import styles from "./TodoInput.module.css";
 import { Button } from "../../../components/button/button";
 import { Input } from "../../../components/input/input";
 
@@ -20,14 +19,19 @@ export const TodoInput = ({ onAdd }: Props) => {
   };
 
   return (
-    <div className={styles.inputContainer}>
+    <div className="flex gap-2 mb-4">
       <Input
         type="text"
         value={text}
         placeholder="新しいTODOを入力"
         onChange={(e) => setText(e.target.value)}
       />
-      <Button onClick={handleSubmit}>追加</Button>
+      <Button
+        variant="primary"
+        onClick={handleSubmit}
+      >
+        追加
+      </Button>
     </div>
   );
 };

@@ -1,7 +1,6 @@
 // src/features/todo/components/Todo.tsx
 import { useState } from "react";
 import type { Todo as TodoType } from "../types/todo";
-import styles from "./Todo.module.css";
 import { Button } from "../../../components/button/button";
 import { Input } from "../../../components/input/input";
 
@@ -30,7 +29,11 @@ export const Todo = ({ todo, onDelete, onToggle, onEdit }: Props) => {
   };
 
   return (
-    <div className={styles.todo}>
+    <div
+      className={`border border-[#ccc] rounded-md p-3 mb-2 ${
+        isEditing ? "flex flex-col" : "flex items-center justify-between"
+      }`}
+    >
       {isEditing ? (
         <>
           <Input
@@ -39,22 +42,30 @@ export const Todo = ({ todo, onDelete, onToggle, onEdit }: Props) => {
             onKeyDown={(e) => e.key === "Enter" && handleEditSubmit()}
             placeholder="編集するTODOを入力"
           />
-          <div className={styles.actions}>
-            <Button variant="primary" onClick={handleEditSubmit}>保存</Button>
-            <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
+          <div className="flex items-center gap-2 mt-2">
+            <Button variant="primary" onClick={handleEditSubmit}>
+              保存
+            </Button>
+            <Button variant="secondary" onClick={handleCancel}>
+              Cancel
+            </Button>
           </div>
         </>
       ) : (
         <>
           <span
             onClick={() => onToggle(todo.id)}
-            className={`${styles.todoText} ${todo.done ? styles.done : ""}`}
+            className={`flex-1 ${todo.done ? "line-through" : ""} cursor-pointer`}
           >
             {todo.text}
           </span>
-          <div className={styles.actions}>
-            <Button variant="primary" onClick={() => setIsEditing(true)}>編集</Button>
-            <Button variant="danger" onClick={() => onDelete(todo.id)}>削除</Button>
+          <div className="flex items-center gap-2 ml-3">
+            <Button variant="primary" onClick={() => setIsEditing(true)}>
+              編集
+            </Button>
+            <Button variant="danger" onClick={() => onDelete(todo.id)}>
+              削除
+            </Button>
           </div>
         </>
       )}

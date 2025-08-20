@@ -1,7 +1,6 @@
 // src/features/todo/components/TodoList.tsx
 import { Todo } from "./Todo";
 import type { Todo as TodoType } from "../types/todo";
-import styles from "./TodoList.module.css";
 
 type Props = {
   todos: TodoType[];
@@ -16,9 +15,9 @@ export const TodoList = ({ todos, onDelete, onToggle, onEdit }: Props) => {
   }
 
   return (
-    <ul className={styles.list}>
+    <ul className="list-none p-0 m-0">
       {todos.map((todo) => (
-        <li key={todo.id} className={styles.listItem}>
+        <li key={todo.id} className="mb-2">
           <Todo
             todo={todo}
             onDelete={onDelete}

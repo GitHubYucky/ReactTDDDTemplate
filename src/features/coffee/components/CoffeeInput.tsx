@@ -1,7 +1,8 @@
 // src/features/coffee/components/CoffeeInput.tsx
 import { useState } from "react";
-import { Button } from "../../../components/button/button";
+import { Button } from "@/components/button/button";
 import { Input } from "@/components/input/input";
+import { ListBox } from "@/components/listbox/listbox";
 
 type Props = {
   onSearch: (type: string, title: string) => void;
@@ -21,31 +22,31 @@ export const CoffeeInput = ({ onSearch, disabled = false }: Props) => {
     <form
       onSubmit={handleSubmit}
       aria-label="coffee-search"
-      className="flex flex-col sm:flex-row gap-3 items-stretch mb-4"
+      className="
+        grid gap-3 mb-4
+        grid-cols-1
+        sm:[grid-template-columns:200px_1fr_auto]  /* ← 列幅: 固定/伸びる/自動 */
+        items-end
+      "
     >
-      {/* Type: 幅と高さを拡大 */}
-      <div className="w-full sm:w-64">
-        <label className="block text-sm font-medium text-slate-700 mb-1">
-          Type
-        </label>
-        <select
+      {/* Type */}
+      <div className="space-y-1">
+        <label className="block text-sm font-medium text-slate-700">Type</label>
+        <ListBox
           value={type}
-          onChange={(e) => setType(e.target.value as "hot" | "iced")}
+          onChange={(e) => setType((e.target.value as "hot" | "iced"))}
           aria-label="coffee-type"
           disabled={disabled}
-          className="w-full h-11 px-3 text-base border border-slate-300 rounded
-                     bg-white disabled:cursor-not-allowed disabled:bg-slate-100"
+          className="w-full"   // 横幅は親の200pxにフィット
         >
           <option value="hot">hot</option>
           <option value="iced">iced</option>
-        </select>
+        </ListBox>
       </div>
 
-      {/* Title: 高さを合わせる */}
-      <div className="flex-1">
-        <label className="block text-sm font-medium text-slate-700 mb-1">
-          Title
-        </label>
+      {/* Title */}
+      <div className="space-y-1">
+        <label className="block text-sm font-medium text-slate-700">Title</label>
         <Input
           type="text"
           placeholder="Search CoffeeTitle..."
@@ -53,10 +54,11 @@ export const CoffeeInput = ({ onSearch, disabled = false }: Props) => {
           onChange={(e) => setTitle(e.target.value)}
           aria-label="coffee-title"
           disabled={disabled}
+          className="w-full h-11 px-3 text-base border border-[#ccc] rounded"
         />
       </div>
 
-      {/* Searchボタン: 高さを合わせる */}
+      {/* Search */}
       <Button type="submit" disabled={disabled}>
         Search
       </Button>

@@ -35,7 +35,6 @@ export const CoffeeInput = ({ onSearch, disabled = false }: Props) => {
         <ListBox
           value={type}
           onChange={(e) => setType((e.target.value as "hot" | "iced"))}
-          aria-label="coffee-type"
           disabled={disabled}
           className="w-full"   // 横幅は親の200pxにフィット
         >
@@ -52,9 +51,7 @@ export const CoffeeInput = ({ onSearch, disabled = false }: Props) => {
           placeholder="Search CoffeeTitle..."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          aria-label="coffee-title"
           disabled={disabled}
-          className="w-full h-11 px-3 text-base border border-[#ccc] rounded"
         />
       </div>
 

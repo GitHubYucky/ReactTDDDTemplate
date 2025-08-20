@@ -6,6 +6,7 @@ import { TodoContainer } from "@/features/todo/components/TodoContainer";
 import { EchoContainer } from "@/features/echo/components/EchoContainer";
 import { CoffeeContainer } from "@/features/coffee/components/CoffeeContainer";
 import { Mp3Container } from "@/features/mp3-downloader/components/mp3-container";
+import { WeatherContainer } from "./features/weather/components/WeatherContainer";
 
 export const App = () => {
   return (
@@ -19,6 +20,7 @@ export const App = () => {
             <li><Link to="/echo">Echo</Link></li>
             <li><Link to="/coffee">Coffee</Link></li>
             <li><Link to="/mp3download">Mp3Download</Link></li>
+            <li><Link to="/weather">Weather</Link></li>
           </ul>
         </nav>
 
@@ -29,6 +31,7 @@ export const App = () => {
           <Route path="/echo" element={<EchoContainer />} />
           <Route path="/coffee" element={<CoffeeContainer />} />
           <Route path="/mp3download" element={<Mp3Container />} />
+          <Route path="/weather" element={<WeatherContainer />} />
         </Routes>
       </div>
     </BrowserRouter>

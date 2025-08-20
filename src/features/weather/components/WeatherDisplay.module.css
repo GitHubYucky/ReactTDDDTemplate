@@ -1,0 +1,43 @@
+/* WeatherDisplay.module.css */
+
+.weatherContainer {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  }
+
+  .weatherTitle {
+    font-size: 1.5rem;
+    color: #444;
+    margin-bottom: 1rem;
+  }
+
+  .weatherInfo p {
+    font-size: 1rem;
+    color: #666;
+    margin: 0.5rem 0;
+  }
+
+  /* エラーメッセージと情報なしのスタイル */
+  .errorMessage,
+  .noWeatherInfoMessage {
+    margin-top: 2rem;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 4px;
+  }
+
+  .errorMessage {
+    background-color: #ffebee;
+    color: #d32f2f;
+    border: 1px solid #ef9a9a;
+  }
+
+  .noWeatherInfoMessage {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    border: 1px solid #90caf9;
+  }

@@ -1,15 +1,12 @@
-import { Weather } from "../types/weather";
-import styles from "./WeatherDisplay.module.css";
+// src/features/weather/components/WeatherDisplay.tsx
+import type { Weather } from "../types/weather";
 
-type Props = {
-  weather: Weather | null;
-  error: Error | null;
-};
+type Props = { weather: Weather | null; error: Error | null };
 
 export const WeatherDisplay = ({ weather, error }: Props) => {
   if (error) {
     return (
-      <div className={`${styles.message} ${styles.errorMessage}`}>
+      <div className="  flex flex-col items-center gap-4 p-5 bg-[#f9f9f9] rounded-xl shadow-md">
         Error!
       </div>
     );
@@ -17,16 +14,17 @@ export const WeatherDisplay = ({ weather, error }: Props) => {
 
   if (!weather) {
     return (
-      <div className={`${styles.message} ${styles.noInfoMessage}`}>
+      <div className="flex flex-col items-center gap-4 p-5 bg-[#f9f9f9] rounded-xl shadow-md">
         NoWeatherInfo
       </div>
     );
   }
 
+
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>現在の天気</h2>
-      <div className={styles.info}>
+    <div className="  flex flex-col items-center gap-4 p-5 bg-[#f9f9f9] rounded-xl shadow-md">
+      <h2 className="text-xl text-[#444] mb-4 text-left">現在の天気</h2>
+      <div>
         <p>気温: {weather.temperature}℃</p>
         <p>風速: {weather.windspeed} m/s</p>
         <p>風向: {weather.winddirection}°</p>

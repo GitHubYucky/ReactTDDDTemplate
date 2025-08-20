@@ -35,7 +35,7 @@ export const Todo = ({ todo, onDelete, onToggle, onEdit }: Props) => {
       }`}
     >
       {isEditing ? (
-        <>
+        <form onSubmit={handleEditSubmit}>
           <Input
             value={editText}
             onChange={(e) => setEditText(e.target.value)}
@@ -43,14 +43,14 @@ export const Todo = ({ todo, onDelete, onToggle, onEdit }: Props) => {
             placeholder="編集するTODOを入力"
           />
           <div className="flex items-center gap-2 mt-2">
-            <Button variant="primary" onClick={handleEditSubmit}>
+            <Button variant="primary" type="submit">
               保存
             </Button>
             <Button variant="secondary" onClick={handleCancel}>
               Cancel
             </Button>
           </div>
-        </>
+        </form>
       ) : (
         <>
           <span

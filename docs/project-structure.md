@@ -148,3 +148,26 @@ createRoot(document.getElementById("root")!).render(
 - components/: このディレクトリには、天気機能の React コンポーネントが含まれています。
 - hooks/: このディレクトリには、天気機能のカスタムフックが含まれています。
 - types/: このディレクトリには、天気機能の型定義が含まれています。
+
+## src/server/index.ts
+
+このファイルには、API エンドポイントが記述されています。API を作成するための一連の操作については、[creating-apis.md](creating-apis.md)を参照してください。
+
+```typescript
+// src/server/index.ts
+import express from "express";
+import bodyParser from "body-parser";
+import { echoHandler } from "../features/echo/apis/echo";
+import { mp3Handler } from "../features/mp3-downloader/apis/mp3";
+
+const app = express();
+app.use(bodyParser.json());
+
+app.all("/api/echo", echoHandler);
+app.all("/api/mp3", mp3Handler);
+
+const PORT = Number(process.env.PORT) || 3001;
+app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${PORT}`);
+});
+```

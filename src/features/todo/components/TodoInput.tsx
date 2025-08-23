@@ -1,5 +1,5 @@
 // src/features/todo/components/TodoInput.tsx
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Button } from "../../../components/button/button";
 import { Input } from "../../../components/input/input";
 
@@ -10,7 +10,8 @@ type Props = {
 export const TodoInput = ({ onAdd }: Props) => {
   const [text, setText] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = (e:FormEvent) => {
+    e.preventDefault();
     const trimmed = text.trim();
     if (!trimmed) return;
 
@@ -19,7 +20,7 @@ export const TodoInput = ({ onAdd }: Props) => {
   };
 
   return (
-    <div className="flex gap-2 mb-4">
+    <form className="flex gap-2 mb-4" onSubmit={handleSubmit}>
       <Input
         type="text"
         value={text}
@@ -28,10 +29,11 @@ export const TodoInput = ({ onAdd }: Props) => {
       />
       <Button
         variant="primary"
-        onClick={handleSubmit}
+
+        type="submit"
       >
         追加
       </Button>
-    </div>
+    </form>
   );
 };

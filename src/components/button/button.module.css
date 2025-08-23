@@ -27,3 +27,9 @@
   .danger:hover {
     background-color: #c53030;
   }
+
+  /* button.module.css に追加例 */
+.bold { font-weight: bold; }
+.emphasis { font-weight: 700; letter-spacing: .01em; }
+.green { background-color: #10b981; }
+.green:hover { background-color: #059669; }

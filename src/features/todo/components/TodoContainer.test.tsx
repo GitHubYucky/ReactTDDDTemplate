@@ -1,7 +1,6 @@
 import { describe,it,expect } from "vitest";
 import { fireEvent, render,screen } from "@testing-library/react";
 import { TodoContainer } from "./TodoContainer";
-import styles from "./Todo.module.css"; // 実際のモジュールパス
 
 describe("TodoContainer",()=>{
     it("TodoInputとTodoListが表示される",()=>{
@@ -51,7 +50,7 @@ describe("TodoContainer",()=>{
         fireEvent.click(button);
         const todo=screen.getByText("新しいタスク");
         fireEvent.click(todo);
-        expect(screen.getByText("新しいタスク")).toHaveClass(styles.done);
+        expect(screen.getByText("新しいタスク")).toHaveClass("line-through");
     })
 
 

@@ -28,19 +28,19 @@ export const Coffee = ({ coffee }: Props) => {
 
         <div className="mt-1">
           <div className="mb-2 text-xs font-semibold tracking-wide text-slate-700">
-            Ingredients
+            Ingredients:
           </div>
           {/* チップを小さめ＆間隔控えめでスッキリ */}
-          <div className="flex flex-wrap gap-2">
+          <ul className="flex flex-wrap gap-2">
             {coffee.ingredients.map((ing, i) => (
-              <span
+              <li
                 key={i}
                 className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-700"
               >
                 {ing}
-              </span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
 
         {/* 区切り線＋メタ行を最下部へ */}

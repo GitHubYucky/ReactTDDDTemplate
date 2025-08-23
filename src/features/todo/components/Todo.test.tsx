@@ -2,7 +2,8 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Todo } from "./Todo";
-import styles from "./Todo.module.css";
+import userEvent from "@testing-library/user-event";
+
 
 describe("Todo", () => {
   const sample = {
@@ -33,7 +34,7 @@ describe("Todo", () => {
       />
     );
     const item = screen.getByText("散歩する");
-    expect(item).toHaveClass(styles.done)
+    expect(item).toHaveClass("line-through")
   });
 
   it("削除ボタンを押すとonDeleteが呼ばれる", () => {
@@ -94,7 +95,7 @@ describe("TodoEdit",()=>{
     expect(onEdit).toHaveBeenCalledWith(1, "買い物");
   });
 
-  it("Enterキーで保存される", () => {
+  it("Enterキーで保存される", async () => {
     const onEdit = vi.fn();
     render(
       <Todo todo={sample} onDelete={() => {}} onToggle={() => {}} onEdit={onEdit} />
@@ -102,8 +103,8 @@ describe("TodoEdit",()=>{
 
     fireEvent.click(screen.getByText("編集"));
     const input = screen.getByDisplayValue("掃除");
-    fireEvent.change(input, { target: { value: "勉強" } });
-    fireEvent.keyDown(input, { key: "Enter", code: "Enter" });
+    await userEvent.clear(input);
+    await userEvent.type(input, "勉強{enter}");
 
     expect(onEdit).toHaveBeenCalledWith(1, "勉強");
   });
@@ -117,7 +118,7 @@ describe("TodoEdit",()=>{
     fireEvent.click(screen.getByText("編集"))
     const input = screen.getByDisplayValue("掃除");
     fireEvent.change(input, { target: { value: "勉強" } });
-    const button=screen.getByText("Cancel")
+    const button=screen.getByText("取消")
     fireEvent.click(button)
     //assert
     // DisplayValue=InputValue, Text= textNode

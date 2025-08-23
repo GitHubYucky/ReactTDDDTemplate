@@ -11,49 +11,93 @@ describe("<CoffeeInput />", () => {
     const handleSearch = vi.fn();
     render(<CoffeeInput onSearch={handleSearch} />);
 
-    const typeInput = screen.getByPlaceholderText("Search coffeeType...", { exact: true });
-    const titleInput = screen.getByPlaceholderText("Search CoffeeTitle...", { exact: true });
-    const button    = screen.getByRole("button", { name: /search/i });
+    // Type セレクト（初期値: "hot"）を取得して "iced" に変更
+    const typeSelect = screen.getByDisplayValue("hot"); // <select> を想定
+    const titleInput = screen.getByPlaceholderText("Search CoffeeTitle...", {
+      exact: true,
+    });
+    const button = screen.getByRole("button", { name: /search/i });
 
-    fireEvent.change(typeInput,  { target: { value: "hot" } });
+    fireEvent.change(typeSelect, { target: { value: "iced" } });
     fireEvent.change(titleInput, { target: { value: "latte" } });
     fireEvent.click(button);
 
     expect(handleSearch).toHaveBeenCalledTimes(1);
-    expect(handleSearch).toHaveBeenCalledWith("hot", "latte");
+    expect(handleSearch).toHaveBeenCalledWith("iced", "latte");
   });
 
-  it("Enter送信でも onSearch(type, title) が呼ばれる", () => {
+  it("Enter（form submit）でも onSearch(type, title) が呼ばれる", () => {
     const handleSearch = vi.fn();
     render(<CoffeeInput onSearch={handleSearch} />);
 
-    const typeInput  = screen.getByPlaceholderText("Search coffeeType...", { exact: true });
-    const titleInput = screen.getByPlaceholderText("Search CoffeeTitle...", { exact: true });
+    // 初期 type は "hot" のまま
+    const titleInput = screen.getByPlaceholderText("Search CoffeeTitle...", {
+      exact: true,
+    });
 
-    fireEvent.change(typeInput,  { target: { value: "iced" } });
     fireEvent.change(titleInput, { target: { value: "espresso" } });
 
-    // フォームを submit（Enter 相当）
-    fireEvent.submit(typeInput.closest("form")!);
+    // <form aria-label="coffee-search"> を submit
+    const form = screen.getByRole("form", { name: /coffee-search/i });
+    fireEvent.submit(form);
 
     expect(handleSearch).toHaveBeenCalledTimes(1);
-    expect(handleSearch).toHaveBeenCalledWith("iced", "espresso");
+    expect(handleSearch).toHaveBeenCalledWith("hot", "espresso");
   });
 
-  it("空白は trim される（'   ' → ''）", () => {
+  it("空白タイトルは trim されて空文字で渡される", () => {
     const handleSearch = vi.fn();
     render(<CoffeeInput onSearch={handleSearch} />);
 
-    const typeInput  = screen.getByPlaceholderText("Search coffeeType...", { exact: true });
-    const titleInput = screen.getByPlaceholderText("Search CoffeeTitle...", { exact: true });
-    const button     = screen.getByRole("button", { name: /search/i });
+    // type はデフォルト "hot"
+    const titleInput = screen.getByPlaceholderText("Search CoffeeTitle...", {
+      exact: true,
+    });
+    const button = screen.getByRole("button", { name: /search/i });
 
-    // type は明示的に all を設定（初期値に依存しない）
-    fireEvent.change(typeInput,  { target: { value: "all" } });
     fireEvent.change(titleInput, { target: { value: "   " } });
     fireEvent.click(button);
 
     expect(handleSearch).toHaveBeenCalledTimes(1);
-    expect(handleSearch).toHaveBeenCalledWith("all", "");
+    expect(handleSearch).toHaveBeenCalledWith("hot", "");
+  });
+
+  it("type を 'iced' に変更し、空白タイトルを trim して送信", () => {
+    const handleSearch = vi.fn();
+    render(<CoffeeInput onSearch={handleSearch} />);
+
+    const typeSelect = screen.getByDisplayValue("hot");
+    const titleInput = screen.getByPlaceholderText("Search CoffeeTitle...", {
+      exact: true,
+    });
+    const button = screen.getByRole("button", { name: /search/i });
+
+    fireEvent.change(typeSelect, { target: { value: "iced" } });
+    fireEvent.change(titleInput, { target: { value: "  mocha  " } });
+    fireEvent.click(button);
+
+    expect(handleSearch).toHaveBeenCalledTimes(1);
+    expect(handleSearch).toHaveBeenCalledWith("iced", "mocha");
+  });
+
+  it("disabled=true のとき、操作できず onSearch は呼ばれない", () => {
+    const handleSearch = vi.fn();
+    render(<CoffeeInput onSearch={handleSearch} disabled />);
+
+    // それぞれ disabled であること
+    const button = screen.getByRole("button", { name: /search/i });
+    const titleInput = screen.getByPlaceholderText("Search CoffeeTitle...", {
+      exact: true,
+    });
+    // Type は初期値 "hot"
+    const typeSelect = screen.getByDisplayValue("hot");
+
+    expect(button).toBeDisabled();
+    expect(titleInput).toBeDisabled();
+    expect(typeSelect).toBeDisabled();
+
+    // クリックしても呼ばれない
+    fireEvent.click(button);
+    expect(handleSearch).not.toHaveBeenCalled();
   });
 });
